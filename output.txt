@@ -1,0 +1,33 @@
+
+Option 2
+Student 1: Nir 32251 90 1 Y
+Student 2: Ely 12347 77 1 N
+Student 3: Moshe 45321 50 1 Y
+Student 4: Avi 31456 89 0 Y
+
+Option 3
+BEFORE:
+Student 1: Nir 32251 90 1 Y
+Student 2: Ely 12347 77 1 N
+Student 3: Moshe 45321 50 1 Y
+Student 4: Avi 31456 89 0 Y
+
+AFTER:
+Student 1: Nir 32251 90 1 final: 92
+Student 2: Ely 12347 77 1 final: 79
+Student 3: Moshe 45321 50 1 final: 50
+Student 4: Avi 31456 89 0 final: 89
+
+Option 4
+1.(average,x = 76.33)
+2.(standrad divition,Sd = 18.61)
+3.(num of students, 4)
+4.(Range = 90 - 50)
+5.(3 students in this program)
+
+
+Option 5
+The blacklist is:
+name: Avi, ID: 31456
+Option6
+End of Program
