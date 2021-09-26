@@ -30,25 +30,25 @@ int Bit_Count(char grades[]);
 
 void main() {
 	int action_num = 0, i;
-	char prog_check;
+	char prog_check; /*This variable contains the letter that indicates whether the student is in the new / old program*/
 	FILE *in, *out;
 	University univ;
 	printf("Please enter your number of action:\n");
 	printf("1->input data, 2->output data, 3->final grade calculate, 4->statistic data, 5->blacklist, 6->end of program\n");
 	scanf("%d", &action_num);
-	while (action_num != 1) {
+	while (action_num != 1) { /*The loop "forces" the user to select the number 1 (information reading) as the first choice*/
 		printf("Your first choice must be 1 for input data!\n");
 		printf("Please enter your number of action:\n");
 		printf("1->input data, 2->output data, 3->final grade calculate, 4->statistic data, 5->blacklist, 6->end of program\n");
 		scanf("%d", &action_num);
 	}
 	in = fopen("input.txt", "r");
-	if (in == NULL) exit(1);
+	if (in == NULL) exit(1); /*Checks if the file open properly*/
 	input_data(in, &univ);
-	fclose(in);
+	fclose(in); /*Once we are done working with the input file we will start working with the output file*/
 	out = fopen("output.txt", "w");
 	if (out == NULL) exit_free(&univ);
-	while (action_num != 6) {
+	while (action_num != 6) { /*The loop checks which number (action) the user selects and calls the relevant function*/
 		printf("Please enter your number of action:\n");
 		printf("1->input data, 2->output data, 3->final grade calculate, 4->statistic data, 5->blacklist, 6->end of program\n");
 		scanf("%d", &action_num);
@@ -87,9 +87,9 @@ void main() {
 		}
 		
 	}
-	fprintf(out, "Option6\nEnd of Program");
+	fprintf(out, "\nOption6\nEnd of Program");
 	fclose(out);
-	for (i = 0; i < univ.num_students; i++) {
+	for (i = 0; i < univ.num_students; i++) { /*When the program is over we will release all the memory allocations*/
 		free(univ.arr[i].name);
 	}
 	free(univ.arr);
@@ -98,7 +98,8 @@ void main() {
 /*The function gets pointer to file and pointer to university,
 input the students data from file to students array in university, and count the number od students*/
 void input_data(FILE* f, University* univ) {
-	char temp_name[100], temp_c;
+	char temp_name[100], temp_c; /*Using a temp string for the name will help us know the length of the name,
+ so we can copy it to a name variable in a student structure efficiently*/
 	int i = 0, j;
 	univ->arr = (Student*)malloc(sizeof(Student));  //Allocation memory for students array
 	if (univ->arr == NULL) exit(1);
@@ -110,7 +111,7 @@ void input_data(FILE* f, University* univ) {
 		strcpy(univ->arr[i].name, temp_name);
 		fscanf(f, "%ld", &univ->arr[i].ID);
 		fscanf(f, "%d", &univ->arr[i].test_grade);
-		fscanf(f, "%c", &temp_c);
+		fscanf(f, "%c", &temp_c); /*skip space*/
 		for (j = 0; j < 5; j++) {
 			fscanf(f, "%c", &univ->arr[i].grades[j]);
 		}
@@ -177,7 +178,7 @@ void statistic_data(FILE* f, University* univ, char prog_check) {
 	else
 		average = (float)sum / (float)num_students_old;
 	sum = 0;
-	for (i = 0; i < univ->num_students; i++) { //calcuate stiat teken of test grades
+	for (i = 0; i < univ->num_students; i++) { //calcuate standard deviation of test grades
 		if (univ->arr[i].flag == prog_check)
 			sum = sum + pow((univ->arr[i].test_grade- average) , 2);
 	}
@@ -193,11 +194,11 @@ void statistic_data(FILE* f, University* univ, char prog_check) {
 }
 
 /*The function gets pointer to file and pointer to university,
-calculate statistic data of test for studnets in new/old progrem and print them in the file*/
+and print the blacklist (Students who do not meet the conditions)*/
 void black_list(FILE* f, University* univ) {
 	int i;
 	fprintf(f, "The blacklist is:\n");
-	for (i = 0; i < univ->num_students; i++) { //calcuate num of students in new/old program
+	for (i = 0; i < univ->num_students; i++) { //calculate num of students in new/old program
 		if (univ->arr[i].final_grade == 0)
 			fprintf(f, "name: %s, ID: %ld\n", univ->arr[i].name, univ->arr[i].ID);
 	}
@@ -208,7 +209,7 @@ void black_list(FILE* f, University* univ) {
 int Bit_Count(char grades[]) {
 	int i, count = 0;
 	for (i = 0; i < 5; i++) {
-		if ((grades[i] - '0') == 1)
+		if ((grades[i] - '0') == 1) /*Subtract the ascii value of 0 to get an numeric value*/
 			count++;
 	}
 	return count;
